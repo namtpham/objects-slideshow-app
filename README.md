@@ -8,3 +8,6 @@ A free app for Windows 10 / 11 (64-bit).
   unzip one of the two zips and start `Objects Slideshow.exe`.
 
 This repository holds the app's website and its releases only.
+The video and screenshots on the website are in [media/](media/).
+
+Like it? [Buy me a coffee](https://buymeacoffee.com/namtpham)

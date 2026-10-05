@@ -5,7 +5,7 @@
   "releases": [
     {
       "version": "2.0.0",
-      "date": "2026-10-05",
+      "date": "2026-10-06",
       "notes": [
         "First public release.",
         "Objects: a folder of images per object (or downloaded images), shown as a grid of tiles scrolling in 8 directions; Individual, Random mix, Row-wise and Column-wise display.",
@@ -18,14 +18,16 @@
       ],
       "downloads": {
         "onefile": {
-          "name": "Objects_slideshow_2.0.0_20261005.zip",
-          "size": 66252190,
-          "url": "https://github.com/namtpham/objects-slideshow-app/releases/download/v2.0.0/Objects_slideshow_2.0.0_20261005.zip"
+          "name": "Objects_slideshow_2.0.0_20261006.zip",
+          "size": 66264642,
+          "url": "https://github.com/namtpham/objects-slideshow-app/releases/download/v2.0.0/Objects_slideshow_2.0.0_20261006.zip",
+          "sha256": "5bf6f63677811f9f87f0fe0d732a28289aefba9f7c78275514cd931793f4da02"
         },
         "folder": {
-          "name": "Objects_slideshow_2.0.0_20261005_folder.zip",
-          "size": 66760609,
-          "url": "https://github.com/namtpham/objects-slideshow-app/releases/download/v2.0.0/Objects_slideshow_2.0.0_20261005_folder.zip"
+          "name": "Objects_slideshow_2.0.0_20261006_folder.zip",
+          "size": 66771315,
+          "url": "https://github.com/namtpham/objects-slideshow-app/releases/download/v2.0.0/Objects_slideshow_2.0.0_20261006_folder.zip",
+          "sha256": "07e84bcd33a207a425af14f26d75cc6a62780fc581d5a9a6fed39ed851d1ec00"
         }
       }
     }

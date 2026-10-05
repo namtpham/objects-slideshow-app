@@ -54,7 +54,35 @@
   .release li { margin: 2px 0; }
   .note { color: var(--muted); font-size: .93rem; }
   #more { background: none; border: 0; color: var(--accent); cursor: pointer; padding: 6px 0 0; font: inherit; }
-  footer { color: var(--muted); font-size: .88rem; padding: 10px 0 40px; }
+  footer { color: var(--muted); font-size: .88rem; padding: 10px 0 40px; display: flex;
+           flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; }
+  .btn.coffee { background: #ffdd00; color: #1b1b1b; }
+  .btn.coffee:hover { background: #f2d100; }
+  .btn.small { padding: 6px 14px; font-size: .9rem; }
+  /* See it: the demo video and the screenshots (media/; hidden while there are none) */
+  .demo { width: 100%; border-radius: 8px; background: #000; display: block; }
+  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 14px; }
+  .shots a { display: block; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .shots img { display: block; width: 100%; height: auto; }
+  .shots figcaption { color: var(--muted); font-size: .85rem; padding: 6px 10px; }
+  /* Feedback form */
+  form.fb { display: grid; gap: 12px; margin-top: 6px; }
+  .fb .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .fb label { display: grid; gap: 4px; font-size: .9rem; font-weight: 600; }
+  .fb label span.hint-opt { color: var(--muted); font-weight: 400; }
+  .fb input, .fb select, .fb textarea { font: inherit; font-weight: 400; color: var(--text); background: var(--bg);
+           border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; width: 100%; }
+  .fb textarea { min-height: 120px; resize: vertical; }
+  .fb input:focus, .fb select:focus, .fb textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .fb .send { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .fb button { border: 0; cursor: pointer; font: inherit; }
+  .fb button:disabled { opacity: .6; cursor: default; }
+  .fb .status { font-size: .93rem; }
+  .fb .status.ok { color: var(--green); }
+  .fb .status.err { color: #d9534f; }
+  .hp { position: absolute; left: -10000px; }
+  .or { margin: 18px 0 0; }
+  @media (max-width: 560px) { .fb .row { grid-template-columns: 1fr; } }
   .opt h3 .ver { overflow-wrap: anywhere; }
   @media (max-width: 560px) {
     header { padding: 28px 0 20px; }
@@ -80,9 +108,16 @@
       <a class="btn" id="dl-latest" href="#download">Download</a>
       <a class="btn secondary" href="#whats-new">What's new</a>
       <a class="btn secondary" href="#feedback">Feedback</a>
+      <a class="btn coffee" href="https://buymeacoffee.com/namtpham" target="_blank" rel="noopener">&#9749; Buy me a coffee</a>
       <span class="ver" id="latest-label"></span>
     </div>
   </header>
+
+  <section id="see" hidden>
+    <h2>See it</h2>
+    <video class="demo" id="demo" controls muted loop playsinline preload="metadata" hidden></video>
+    <div class="shots" id="shots"></div>
+  </section>
 
   <section id="download">
     <h2>Download</h2>
@@ -131,13 +166,44 @@
 
   <section id="feedback">
     <h2>Feedback and bug reports</h2>
-    <p class="note">Questions, ideas, problems: write below. For a bug, please add the app version
-      (Help &gt; About &gt; Copy app version) and what you did before it happened.
-      Commenting needs a free GitHub account.</p>
+    <p class="note">Questions, ideas, problems: write below<span id="fb-noacct">, no account needed</span>. For a bug, please add
+      the app version (Help &gt; About &gt; Copy app version) and what you did before it happened.</p>
+    <form class="fb" id="fb" hidden>
+      <div class="row">
+        <label>Kind
+          <select name="kind">
+            <option>Feedback</option><option>Bug report</option><option>Idea</option><option>Question</option>
+          </select>
+        </label>
+        <label>App version <span class="hint-opt">(optional)</span>
+          <input name="version" placeholder="e.g. 2.0.0" maxlength="40">
+        </label>
+      </div>
+      <label>Message
+        <textarea name="message" required maxlength="5000" placeholder="What would you like to tell me?"></textarea>
+      </label>
+      <div class="row">
+        <label>Name <span class="hint-opt">(optional)</span>
+          <input name="name" maxlength="80" autocomplete="name">
+        </label>
+        <label>Email <span class="hint-opt">(optional, if you want an answer)</span>
+          <input name="email" type="email" maxlength="120" autocomplete="email">
+        </label>
+      </div>
+      <input class="hp" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="send">
+        <button class="btn" type="submit">Send</button>
+        <span class="status" id="fb-status" role="status"></span>
+      </div>
+    </form>
+    <p class="note or" id="fb-or"></p>
     <div id="comments"></div>
   </section>
 
-  <footer>Objects Slideshow by Pham Thanh Nam &middot; free to use</footer>
+  <footer>
+    <span>Objects Slideshow by <a href="https://namtpham.github.io/">Pham Thanh Nam</a> &middot; free to use</span>
+    <span>Enjoying it? <a class="btn coffee small" href="https://buymeacoffee.com/namtpham" target="_blank" rel="noopener">&#9749; Buy me a coffee</a></span>
+  </footer>
 </div>
 
 <script>
@@ -151,6 +217,25 @@ const GISCUS = {
 };
 
 const SHOWN = 4;        // releases shown before "Show older versions"
+
+// Feedback form: messages go to your email through Web3Forms (free, no account
+// for the people writing). Get an access key at https://web3forms.com (enter
+// your email; the key arrives by email) and put it here. Empty: the form is
+// hidden and the page links to GitHub Issues.
+const WEB3FORMS_KEY = "";
+
+// "See it": put the files in media/ (see media/README.md). Missing files are
+// skipped; with none at all the section is hidden.
+const DEMO_VIDEO = "media/demo.mp4";
+const DEMO_POSTER = "media/demo.jpg";
+const SCREENSHOTS = [
+  ["media/screenshot-1.png", "Main window"],
+  ["media/screenshot-2.png", ""],
+  ["media/screenshot-3.png", ""],
+  ["media/screenshot-4.png", ""],
+  ["media/screenshot-5.png", ""],
+  ["media/screenshot-6.png", ""],
+];
 
 function el(tag, attrs, ...kids) {
   const e = document.createElement(tag);
@@ -202,10 +287,13 @@ fetch("versions.json", { cache: "no-store" })
 (function comments() {
   const box = document.getElementById("comments");
   if (!GISCUS.repoId || !GISCUS.categoryId) {
-    box.innerHTML = '<p class="note">Comments are not set up yet. Meanwhile, please ' +
-      '<a href="https://github.com/namtpham/objects-slideshow-app/issues/new">open an issue</a>.</p>';
+    const issues = '<a href="https://github.com/namtpham/objects-slideshow-app/issues/new">open an issue</a>';
+    document.getElementById("fb-or").innerHTML = WEB3FORMS_KEY
+      ? "With a GitHub account you can also " + issues + "."
+      : "Please " + issues + " (needs a free GitHub account).";
     return;
   }
+  document.getElementById("fb-or").textContent = "With a GitHub account you can also comment in public:";
   const s = document.createElement("script");
   s.src = "https://giscus.app/client.js";
   Object.entries({
@@ -217,6 +305,78 @@ fetch("versions.json", { cache: "no-store" })
   }).forEach(([k, v]) => s.setAttribute(k, v));
   s.async = true;
   box.append(s);
+})();
+
+(function feedbackForm() {
+  const form = document.getElementById("fb");
+  if (!WEB3FORMS_KEY) { document.getElementById("fb-noacct").remove(); return; }
+  form.hidden = false;
+  const status = document.getElementById("fb-status");
+  const button = form.querySelector("button");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const f = new FormData(form);
+    if (f.get("botcheck")) return;
+    const kind = f.get("kind"), version = (f.get("version") || "").trim();
+    const body = {
+      access_key: WEB3FORMS_KEY,
+      subject: "Objects Slideshow: " + kind + (version ? " (" + version + ")" : ""),
+      from_name: (f.get("name") || "").trim() || "Objects Slideshow website",
+      kind, version: version || "-",
+      message: f.get("message"),
+      page: location.href,
+      browser: navigator.userAgent,
+    };
+    const email = (f.get("email") || "").trim();
+    if (email) { body.email = email; body.replyto = email; }
+    button.disabled = true;
+    status.className = "status";
+    status.textContent = "Sending…";
+    try {
+      const r = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(body),
+      });
+      const res = await r.json().catch(() => ({}));
+      if (!r.ok || !res.success) throw new Error(res.message || ("HTTP " + r.status));
+      form.reset();
+      status.className = "status ok";
+      status.textContent = "Thank you! Your message was sent.";
+    } catch (err) {
+      status.className = "status err";
+      status.textContent = "Could not send (" + err.message + "). Please try again later.";
+    } finally {
+      button.disabled = false;
+    }
+  });
+})();
+
+(function seeIt() {
+  const section = document.getElementById("see");
+  const video = document.getElementById("demo");
+  const shots = document.getElementById("shots");
+  const show = () => { section.hidden = false; };
+  video.addEventListener("loadedmetadata", () => { video.hidden = false; show(); });
+  video.addEventListener("error", () => video.remove());
+  const probe = new Image();
+  probe.onload = () => { video.poster = DEMO_POSTER; };
+  probe.src = DEMO_POSTER;
+  video.src = DEMO_VIDEO;
+  SCREENSHOTS.forEach(([src, caption], i) => {
+    const img = new Image();
+    img.alt = caption || "Screenshot " + (i + 1);
+    img.loading = "lazy";
+    img.onload = () => {
+      const fig = el("figure", { style: "margin:0;order:" + i });
+      const a = el("a", { href: src, target: "_blank" }, img);
+      fig.append(a);
+      if (caption) fig.append(el("figcaption", {}, caption));
+      shots.append(fig);
+      show();
+    };
+    img.src = src;
+  });
 })();
 </script>
 </body>
