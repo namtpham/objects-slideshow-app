@@ -14,7 +14,19 @@
         "Presets, Editor mode (delete or edit images on the screen), speed schedule, transitions, flip / mirror / rotate, fullscreen on the chosen monitor.",
         "Smooth and light: effects in their own process, effects at 30 fps if wanted, the show pauses while its window is hidden.",
         "Help > Check for updates, and an automatic check once a day (can be turned off in Settings)."
-      ]
+      ],
+      "downloads": {
+        "onefile": {
+          "name": "Objects_slideshow_2.0.0_20261005.zip",
+          "size": 66252190,
+          "url": "https://github.com/namtpham/objects-slideshow-app/releases/download/v2.0.0/Objects_slideshow_2.0.0_20261005.zip"
+        },
+        "folder": {
+          "name": "Objects_slideshow_2.0.0_20261005_folder.zip",
+          "size": 66760609,
+          "url": "https://github.com/namtpham/objects-slideshow-app/releases/download/v2.0.0/Objects_slideshow_2.0.0_20261005_folder.zip"
+        }
+      }
     }
   ]
 }

@@ -40,6 +40,10 @@
   .opt { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
   .opt h3 { margin: 0 0 4px; font-size: 1rem; }
   .opt p { margin: 0; color: var(--muted); font-size: .93rem; }
+  .opt { display: flex; flex-direction: column; align-items: flex-start; }
+  .opt p { flex: 1; }
+  .opt .btn { margin-top: 12px; }
+  .opt .dl-name { margin-top: 6px; font-size: .82rem; overflow-wrap: anywhere; }
   .release { padding: 14px 0; border-top: 1px solid var(--line); }
   .release:first-of-type { border-top: 0; padding-top: 0; }
   .release h3 { margin: 0; font-size: 1.05rem; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
@@ -73,7 +77,7 @@
       </div>
     </div>
     <div class="cta">
-      <a class="btn" id="dl-latest" href="https://github.com/namtpham/objects-slideshow-app/releases/latest">Download</a>
+      <a class="btn" id="dl-latest" href="#download">Download</a>
       <a class="btn secondary" href="#whats-new">What's new</a>
       <a class="btn secondary" href="#feedback">Feedback</a>
       <span class="ver" id="latest-label"></span>
@@ -86,12 +90,16 @@
       Your settings and images stay in the app's folder, so keep that folder when you update.</p>
     <div class="grid">
       <div class="opt">
-        <h3>One file &nbsp;<span class="ver">Objects_slideshow_&lt;version&gt;.zip</span></h3>
+        <h3>One file</h3>
         <p>A single exe. Simple to move around; it unpacks itself at every start, so it starts a little slower.</p>
+        <a class="btn dl" data-kind="onefile" href="https://github.com/namtpham/objects-slideshow-app/releases/latest">Download</a>
+        <div class="ver dl-name"></div>
       </div>
       <div class="opt">
-        <h3>Folder &nbsp;<span class="ver">…_folder.zip</span></h3>
+        <h3>Folder</h3>
         <p>The exe next to its libraries. Starts faster and is flagged less often by antivirus programs.</p>
+        <a class="btn dl" data-kind="folder" href="https://github.com/namtpham/objects-slideshow-app/releases/latest">Download</a>
+        <div class="ver dl-name"></div>
       </div>
     </div>
     <p class="note" style="margin-bottom:0">The app tells you when a new version is out (Help &gt; Check for updates, or automatically once a day).</p>
@@ -137,6 +145,17 @@ fetch("versions.json", { cache: "no-store" })
   .then(r => r.json())
   .then(feed => {
     document.getElementById("latest-label").textContent = "Latest: " + feed.latest;
+    // The two zips of the latest release, straight from its download links
+    // (the release page also lists GitHub's "Source code" archives: only
+    // this website's files, not the app).
+    const latest = feed.releases.find(r => r.version === feed.latest) || {};
+    document.querySelectorAll("a.dl").forEach(a => {
+      const d = (latest.downloads || {})[a.dataset.kind];
+      if (!d) return;
+      a.href = d.url;
+      a.textContent = "Download " + feed.latest;
+      a.nextElementSibling.textContent = d.name + (d.size ? "  (" + Math.round(d.size / 1048576) + " MB)" : "");
+    });
     const box = document.getElementById("releases");
     box.textContent = "";
     feed.releases.forEach((rel, i) => {
