@@ -13,7 +13,8 @@
         "Export the show as a video; Capture (Ctrl + G) saves the current picture as a PNG.",
         "Presets, Editor mode (delete or edit images on the screen), speed schedule, transitions, flip / mirror / rotate, fullscreen on the chosen monitor.",
         "Smooth and light: effects in their own process, effects at 30 fps if wanted, the show pauses while its window is hidden.",
-        "Help > Check for updates, and an automatic check once a day (can be turned off in Settings)."
+        "Settings: images per download, maximum images per object, folder watching, performance options.",
+        "Updates: Help > Check for updates, and an automatic check once a day (can be turned off in Settings). Update now downloads the new version and restarts, keeping your images, settings and presets."
       ],
       "downloads": {
         "onefile": {
