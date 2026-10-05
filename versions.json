@@ -1,0 +1,20 @@
+{
+  "app": "Objects Slideshow",
+  "latest": "2.0.0",
+  "releases_page": "https://github.com/namtpham/objects-slideshow-app/releases",
+  "releases": [
+    {
+      "version": "2.0.0",
+      "date": "2026-10-05",
+      "notes": [
+        "First public release.",
+        "Objects: a folder of images per object (or downloaded images), shown as a grid of tiles scrolling in 8 directions; Individual, Random mix, Row-wise and Column-wise display.",
+        "Effects for each object, like a real camera: zoom and pan, rotation, projective transform, camera shake, motion blur, defocus, lens distortion, color and exposure, noise, compression, flicker, fog / rain / dirt, glare, occlusion patches, partial view, low resolution. Random timing per image, and a Coverage share of tiles.",
+        "Export the show as a video; Capture (Ctrl + G) saves the current picture as a PNG.",
+        "Presets, Editor mode (delete or edit images on the screen), speed schedule, transitions, flip / mirror / rotate, fullscreen on the chosen monitor.",
+        "Smooth and light: effects in their own process, effects at 30 fps if wanted, the show pauses while its window is hidden.",
+        "Help > Check for updates, and an automatic check once a day (can be turned off in Settings)."
+      ]
+    }
+  ]
+}

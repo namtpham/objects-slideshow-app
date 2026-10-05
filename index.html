@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Objects Slideshow</title>
+<meta name="description" content="Objects Slideshow: a free Windows app that scrolls grids of object images with camera-like effects. Downloads, what's new, feedback.">
+<link rel="icon" href="favicon.ico">
+<style>
+  :root {
+    --bg: #f5f6f8; --card: #ffffff; --text: #1d2330; --muted: #5f6b7a; --line: #e2e6ec;
+    --accent: #2f80d1; --accent-dark: #2468ad; --green: #27ae60; --tag: #eaf2fb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14171c; --card: #1c2027; --text: #e6e9ee; --muted: #9aa5b4; --line: #2c323c;
+      --accent: #4a9be6; --accent-dark: #3a86cf; --tag: #22303f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 16px/1.55 "Segoe UI", system-ui, -apple-system, sans-serif; }
+  a { color: var(--accent); }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
+  header { padding: 48px 0 32px; }
+  .brand { display: flex; align-items: center; gap: 18px; }
+  .brand img { width: 72px; height: 72px; }
+  h1 { margin: 0; font-size: 2rem; }
+  .tagline { margin: 4px 0 0; color: var(--muted); }
+  .cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 26px; }
+  .btn { display: inline-block; padding: 10px 20px; border-radius: 6px; background: var(--accent);
+         color: #fff; text-decoration: none; font-weight: 600; }
+  .btn:hover { background: var(--accent-dark); }
+  .btn.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .ver { color: var(--muted); font-size: .95rem; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+            padding: 22px 24px; margin-bottom: 20px; }
+  h2 { margin: 0 0 12px; font-size: 1.3rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .opt { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+  .opt h3 { margin: 0 0 4px; font-size: 1rem; }
+  .opt p { margin: 0; color: var(--muted); font-size: .93rem; }
+  .release { padding: 14px 0; border-top: 1px solid var(--line); }
+  .release:first-of-type { border-top: 0; padding-top: 0; }
+  .release h3 { margin: 0; font-size: 1.05rem; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .release .date { color: var(--muted); font-weight: 400; font-size: .9rem; }
+  .release .tag { background: var(--tag); color: var(--accent); border-radius: 999px; padding: 1px 10px;
+                  font-size: .78rem; font-weight: 600; }
+  .release ul { margin: 6px 0 0; padding-left: 20px; }
+  .release li { margin: 2px 0; }
+  .note { color: var(--muted); font-size: .93rem; }
+  #more { background: none; border: 0; color: var(--accent); cursor: pointer; padding: 6px 0 0; font: inherit; }
+  footer { color: var(--muted); font-size: .88rem; padding: 10px 0 40px; }
+  .opt h3 .ver { overflow-wrap: anywhere; }
+  @media (max-width: 560px) {
+    header { padding: 28px 0 20px; }
+    h1 { font-size: 1.55rem; }
+    .brand { gap: 12px; }
+    .brand img { width: 52px; height: 52px; }
+    section { padding: 18px 16px; }
+    .btn { padding: 9px 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <img src="icon.png" alt="">
+      <div>
+        <h1>Objects Slideshow</h1>
+        <p class="tagline">Grids of object images scrolling across the screen, with camera-like effects. Free for Windows.</p>
+      </div>
+    </div>
+    <div class="cta">
+      <a class="btn" id="dl-latest" href="https://github.com/namtpham/objects-slideshow-app/releases/latest">Download</a>
+      <a class="btn secondary" href="#whats-new">What's new</a>
+      <a class="btn secondary" href="#feedback">Feedback</a>
+      <span class="ver" id="latest-label"></span>
+    </div>
+  </header>
+
+  <section id="download">
+    <h2>Download</h2>
+    <p class="note">Windows 10 / 11, 64-bit. Each release has two zips; unzip one and start <b>Objects Slideshow.exe</b>.
+      Your settings and images stay in the app's folder, so keep that folder when you update.</p>
+    <div class="grid">
+      <div class="opt">
+        <h3>One file &nbsp;<span class="ver">Objects_slideshow_&lt;version&gt;.zip</span></h3>
+        <p>A single exe. Simple to move around; it unpacks itself at every start, so it starts a little slower.</p>
+      </div>
+      <div class="opt">
+        <h3>Folder &nbsp;<span class="ver">…_folder.zip</span></h3>
+        <p>The exe next to its libraries. Starts faster and is flagged less often by antivirus programs.</p>
+      </div>
+    </div>
+    <p class="note" style="margin-bottom:0">The app tells you when a new version is out (Help &gt; Check for updates, or automatically once a day).</p>
+  </section>
+
+  <section id="whats-new">
+    <h2>What's new</h2>
+    <div id="releases"><p class="note">Loading…</p></div>
+    <button id="more" hidden>Show older versions</button>
+  </section>
+
+  <section id="feedback">
+    <h2>Feedback and bug reports</h2>
+    <p class="note">Questions, ideas, problems: write below. For a bug, please add the app version
+      (Help &gt; About &gt; Copy app version) and what you did before it happened.
+      Commenting needs a free GitHub account.</p>
+    <div id="comments"></div>
+  </section>
+
+  <footer>Objects Slideshow by Pham Thanh Nam &middot; free to use</footer>
+</div>
+
+<script>
+// Comments: giscus (GitHub Discussions of the public site repository).
+// Fill these in from https://giscus.app once Discussions are enabled there.
+const GISCUS = {
+  repo: "namtpham/objects-slideshow-app",
+  repoId: "",          // e.g. "R_kgDO..."
+  category: "Feedback",
+  categoryId: "",      // e.g. "DIC_kwDO..."
+};
+
+const SHOWN = 4;        // releases shown before "Show older versions"
+
+function el(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) e.setAttribute(k, v);
+  for (const k of kids) e.append(k);
+  return e;
+}
+
+fetch("versions.json", { cache: "no-store" })
+  .then(r => r.json())
+  .then(feed => {
+    document.getElementById("latest-label").textContent = "Latest: " + feed.latest;
+    const box = document.getElementById("releases");
+    box.textContent = "";
+    feed.releases.forEach((rel, i) => {
+      const h = el("h3", {}, "Version " + rel.version);
+      if (rel.date) h.append(el("span", { class: "date" }, rel.date));
+      if (rel.version === feed.latest) h.append(el("span", { class: "tag" }, "latest"));
+      const ul = el("ul");
+      (rel.notes || []).forEach(n => ul.append(el("li", {}, n)));
+      const tag = "https://github.com/namtpham/objects-slideshow-app/releases/tag/v" + rel.version;
+      const div = el("div", { class: "release", id: "v" + rel.version }, h, ul);
+      if (i === 0) div.append(el("p", { class: "note" }, el("a", { href: tag }, "Download " + rel.version)));
+      if (i >= SHOWN) div.hidden = true;
+      box.append(div);
+    });
+    const more = document.getElementById("more");
+    if (feed.releases.length > SHOWN) {
+      more.hidden = false;
+      more.onclick = () => { box.querySelectorAll(".release").forEach(d => d.hidden = false); more.hidden = true; };
+    }
+  })
+  .catch(() => {
+    document.getElementById("releases").innerHTML =
+      '<p class="note">The version list could not be loaded. See the <a href="https://github.com/namtpham/objects-slideshow-app/releases">releases page</a>.</p>';
+  });
+
+(function comments() {
+  const box = document.getElementById("comments");
+  if (!GISCUS.repoId || !GISCUS.categoryId) {
+    box.innerHTML = '<p class="note">Comments are not set up yet. Meanwhile, please ' +
+      '<a href="https://github.com/namtpham/objects-slideshow-app/issues/new">open an issue</a>.</p>';
+    return;
+  }
+  const s = document.createElement("script");
+  s.src = "https://giscus.app/client.js";
+  Object.entries({
+    "data-repo": GISCUS.repo, "data-repo-id": GISCUS.repoId,
+    "data-category": GISCUS.category, "data-category-id": GISCUS.categoryId,
+    "data-mapping": "specific", "data-term": "Feedback", "data-reactions-enabled": "1",
+    "data-input-position": "top", "data-theme": "preferred_color_scheme", "data-lang": "en",
+    "crossorigin": "anonymous",
+  }).forEach(([k, v]) => s.setAttribute(k, v));
+  s.async = true;
+  box.append(s);
+})();
+</script>
+</body>
+</html>
