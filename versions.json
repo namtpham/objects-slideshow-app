@@ -1,8 +1,33 @@
 {
   "app": "Objects Slideshow",
-  "latest": "2.0.1",
+  "latest": "2.0.2",
   "releases_page": "https://github.com/namtpham/objects-slideshow-app/releases",
   "releases": [
+    {
+      "version": "2.0.2",
+      "date": "2026-10-06",
+      "notes": [
+        "Fixed: the show could freeze when Camera Shake was combined with some other effects (for example Fog, Rain & Dirt, or Occlusion); the Effects preview could freeze the same way.",
+        "Fixed: near the left and top edges, the padding between two images could disappear (one pixel).",
+        "Settings: each group of settings is in its own box.",
+        "If the effects process cannot start right away (a very busy PC), it is tried again instead of leaving the effects to the app for the whole session.",
+        "If the show ever stops responding, logs/crash.log now records where: please attach it to a bug report."
+      ],
+      "downloads": {
+        "onefile": {
+          "name": "Objects_slideshow_2.0.2_20261006.zip",
+          "size": 66225140,
+          "url": "https://github.com/namtpham/objects-slideshow-app/releases/download/v2.0.2/Objects_slideshow_2.0.2_20261006.zip",
+          "sha256": "c00b193fbc20c31903e721e3e01a15bda06af0c2b1151473dd543e477f3be0e8"
+        },
+        "folder": {
+          "name": "Objects_slideshow_2.0.2_20261006_folder.zip",
+          "size": 66733019,
+          "url": "https://github.com/namtpham/objects-slideshow-app/releases/download/v2.0.2/Objects_slideshow_2.0.2_20261006_folder.zip",
+          "sha256": "000b424f87c31ac5b096375ea6c41f53d23580d26fc6d23ef5d90339f9615430"
+        }
+      }
+    },
     {
       "version": "2.0.1",
       "date": "2026-10-06",
