@@ -15,3 +15,8 @@ website shows them a minute later.
 
 Captions and other names: edit `DEMO_VIDEO`, `DEMO_POSTER` and `SCREENSHOTS`
 near the top of the script in `index.html`.
+
+A second demo can be on YouTube (videos too big for GitHub): set `LIVE_VIDEO`
+near the top of the script in `index.html` to its link (e.g.
+`https://youtu.be/AbCdEfGhIjK`) and `LIVE_NOTE` to its caption. The page
+shows only its picture until it is clicked; where YouTube is blocked, a link.

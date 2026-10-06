@@ -65,11 +65,55 @@
   .btn.coffee:hover { background: #f2d100; }
   .btn.small { padding: 6px 14px; font-size: .9rem; }
   /* See it: the demo video and the screenshots (media/; hidden while there are none) */
+  #see h3 { margin: 0 0 8px; font-size: 1.02rem; }
+  #see .clip { margin-bottom: 22px; }
   .demo { width: 100%; border-radius: 8px; background: #000; display: block; }
-  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 14px; }
-  .shots a { display: block; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-  .shots img { display: block; width: 100%; height: auto; }
-  .shots figcaption { color: var(--muted); font-size: .85rem; padding: 6px 10px; }
+  .clip .note { margin: 6px 0 0; }
+  /* YouTube: a picture with a play button; the player loads on click */
+  .yt { position: relative; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden; background: #000; }
+  .yt button { all: unset; cursor: pointer; position: absolute; inset: 0; display: grid; place-items: center; }
+  .yt button img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .yt button span { position: relative; width: 72px; height: 50px; border-radius: 12px; background: rgba(0,0,0,.72);
+                    display: grid; place-items: center; transition: background .15s; }
+  .yt button:hover span, .yt button:focus-visible span { background: #f00; }
+  .yt button span::after { content: ""; border-style: solid; border-width: 11px 0 11px 19px;
+                           border-color: transparent transparent transparent #fff; margin-left: 4px; }
+  .yt button .blocked { position: relative; color: #fff; font-weight: 600; text-decoration: underline; }
+  .yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+  .shots a { display: block; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; cursor: zoom-in; }
+  .shots img { display: block; width: 100%; height: auto; transition: transform .2s; }
+  .shots a:hover img { transform: scale(1.02); }
+  .shots figcaption { color: var(--muted); font-size: .85rem; padding: 6px 2px 0; }
+  /* Screenshot viewer: over the page, Esc / click outside / swipe down to close */
+  .lb { position: fixed; inset: 0; z-index: 50; background: rgba(8,10,14,.95); display: flex;
+        flex-direction: column; align-items: center; justify-content: center; padding: 48px 12px 16px;
+        touch-action: pan-y pinch-zoom; }
+  .lb[hidden] { display: none; }
+  .lb img { max-width: calc(100% - 112px); max-height: calc(100vh - 110px); object-fit: contain; border-radius: 4px;
+            box-shadow: 0 6px 30px rgba(0,0,0,.5); background: #fff; }
+  .lb .cap { color: #e6e9ee; font-size: .92rem; margin-top: 10px; min-height: 1.2em; text-align: center; }
+  .lb button { position: absolute; border: 0; background: rgba(255,255,255,.12); color: #fff; cursor: pointer;
+               width: 44px; height: 44px; border-radius: 50%; font-size: 22px; line-height: 44px; padding: 0;
+               z-index: 1; }
+  .lb button:hover { background: rgba(255,255,255,.25); }
+  .lb .close { top: 10px; right: 12px; }
+  .lb .prev { left: 12px; top: 50%; transform: translateY(-50%); }
+  .lb .next { right: 12px; top: 50%; transform: translateY(-50%); }
+  .lb .count { position: absolute; top: 20px; left: 16px; color: #aab3c0; font-size: .85rem; }
+  @media (max-width: 560px) {
+    .lb { padding-bottom: 70px; }
+    .lb img { max-width: 100%; max-height: calc(100vh - 150px); }
+    .lb .prev, .lb .next { top: auto; bottom: 14px; transform: none; }
+  }
+  /* About the app */
+  .intro p { margin: 0 0 10px; }
+  .uses { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 14px 0 0; }
+  .use { border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; }
+  .use h3 { margin: 0 0 4px; font-size: 1rem; }
+  .use p { margin: 0; color: var(--muted); font-size: .92rem; }
+  .feats { margin: 14px 0 0; padding-left: 20px; columns: 2 300px; column-gap: 32px; }
+  .feats li { margin: 0 0 6px; break-inside: avoid; }
   /* Feedback form */
   form.fb { display: grid; gap: 12px; margin-top: 6px; }
   .fb .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -111,6 +155,7 @@
     </div>
     <div class="cta">
       <a class="btn" id="dl-latest" href="#download">Download</a>
+      <a class="btn secondary" href="#about">What it is</a>
       <a class="btn secondary" href="#whats-new">What's new</a>
       <a class="btn secondary" href="#better">Why 2.0</a>
       <a class="btn secondary" href="#feedback">Feedback</a>
@@ -119,11 +164,66 @@
     </div>
   </header>
 
+  <section id="about" class="intro">
+    <h2>What it is</h2>
+    <p>Pick a few <b>objects</b> (a cat, a car, a cup, anything), give each a folder of images or let the
+      app download them, and Objects Slideshow fills the screen with rows of those images moving in any
+      of 8 directions. Each object can get its own <b>camera effects</b>, so the pictures look as if a
+      real camera filmed them: zoom and pan, rotation, perspective, camera shake, motion blur, defocus,
+      lens distortion, low resolution, compression, color and exposure, noise, flicker, glare,
+      fog / rain / dirt, partial view, patches covering the image.</p>
+    <p>Every setting works while the show runs: change the speed, the size, a direction or an effect
+      and the show follows at once.</p>
+    <div class="uses">
+      <div class="use">
+        <h3>Testing vision systems</h3>
+        <p>Show a camera or a model many images of an object, moving and degraded in controlled ways,
+          for as long as needed. Record the show as a video to repeat a test exactly.</p>
+      </div>
+      <div class="use">
+        <h3>A moving photo wall</h3>
+        <p>Your own photos scrolling on a second screen, a TV or a display, on the monitor you choose.</p>
+      </div>
+      <div class="use">
+        <h3>Something nice to look at</h3>
+        <p>Calm, endless motion in the background. A screensaver mode is planned.</p>
+      </div>
+    </div>
+    <ul class="feats">
+      <li><b>Smooth and light:</b> up to 60 fps; effects in their own process; pauses while its window is hidden.</li>
+      <li><b>Display modes:</b> one object at a time, a random mix, or one object per row / column.</li>
+      <li><b>Export video</b> (H.264) and <b>Capture</b> (a PNG of what is on screen, Ctrl + G).</li>
+      <li><b>Editor mode:</b> click images on the screen to delete them or edit them in Paint.</li>
+      <li><b>Presets</b>, a speed schedule, transitions, flip / mirror / rotate, fullscreen.</li>
+      <li><b>Image downloads</b> from DuckDuckGo and Bing, duplicates skipped; no account or key.</li>
+      <li><b>Updates itself</b> (Update now), keeping your images, settings and presets.</li>
+      <li><b>Portable:</b> no installer; everything stays in the app's folder.</li>
+    </ul>
+  </section>
+
   <section id="see" hidden>
     <h2>See it</h2>
-    <video class="demo" id="demo" controls muted loop playsinline preload="metadata" hidden></video>
+    <div class="clip" id="clip-show" hidden>
+      <h3>The show</h3>
+      <video class="demo" id="demo" controls muted loop playsinline preload="metadata"></video>
+    </div>
+    <div class="clip" id="clip-live" hidden>
+      <h3>Changing settings while it runs</h3>
+      <div class="yt" id="yt"></div>
+      <p class="note" id="yt-note"></p>
+    </div>
+    <h3 id="shots-h" hidden>Screenshots <span class="note">(click to enlarge)</span></h3>
     <div class="shots" id="shots"></div>
   </section>
+
+  <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Screenshot">
+    <span class="count" id="lb-count"></span>
+    <button class="close" id="lb-close" aria-label="Close">&times;</button>
+    <button class="prev" id="lb-prev" aria-label="Previous">&#8249;</button>
+    <img id="lb-img" alt="">
+    <div class="cap" id="lb-cap"></div>
+    <button class="next" id="lb-next" aria-label="Next">&#8250;</button>
+  </div>
 
   <section id="download">
     <h2>Download</h2>
@@ -304,6 +404,10 @@ const WEB3FORMS_KEY = "658c4437-0601-4b97-ae49-45a2c129c203";
 // "See it": put the files in media/ (see media/README.md). Missing files are
 // skipped; with none at all the section is hidden.
 const DEMO_VIDEO = "media/demo.mp4";
+// A second demo on YouTube (too big for GitHub): its link, e.g.
+// "https://youtu.be/AbCdEfGhIjK". Empty: not shown.
+const LIVE_VIDEO = "";
+const LIVE_NOTE = "The main window and the show side by side: each change shows in the slideshow at once.";
 const DEMO_POSTER = "media/demo.jpg";
 const SCREENSHOTS = [
   ["media/screenshot-1.png", "Main window"],
@@ -431,28 +535,122 @@ fetch("versions.json", { cache: "no-store" })
 
 (function seeIt() {
   const section = document.getElementById("see");
-  const video = document.getElementById("demo");
-  const shots = document.getElementById("shots");
   const show = () => { section.hidden = false; };
-  video.addEventListener("loadedmetadata", () => { video.hidden = false; show(); });
-  video.addEventListener("error", () => video.remove());
+
+  // The show: media/demo.mp4
+  const video = document.getElementById("demo");
+  video.addEventListener("loadedmetadata", () => { document.getElementById("clip-show").hidden = false; show(); });
+  video.addEventListener("error", () => document.getElementById("clip-show").remove());
   const probe = new Image();
   probe.onload = () => { video.poster = DEMO_POSTER; };
   probe.src = DEMO_POSTER;
   video.src = DEMO_VIDEO;
-  // Each picture is put in the page at once (hidden) and shown when it has
-  // loaded: an image outside the page with loading="lazy" never loads on
-  // iPhone / Safari.
+
+  // Changing settings: YouTube. Only a picture until it is clicked (no
+  // YouTube player, cookies or tracking before that).
+  const m = LIVE_VIDEO.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([\w-]{11})/) ||
+            LIVE_VIDEO.match(/^([\w-]{11})$/);
+  if (m) {
+    const id = m[1], watch = "https://www.youtube.com/watch?v=" + id;
+    const box = document.getElementById("yt");
+    const play = el("button", { type: "button", "aria-label": "Play the video" });
+    const thumb = el("img", { src: "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg", alt: "" });
+    thumb.addEventListener("error", () => {    // YouTube blocked on this network
+      play.replaceChildren(el("a", { class: "blocked", href: watch, target: "_blank", rel: "noopener" },
+                              "Watch it on YouTube"));
+    });
+    play.append(thumb, el("span"));
+    play.addEventListener("click", () => {
+      box.replaceChildren(el("iframe", {
+        src: "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0&modestbranding=1",
+        title: "Objects Slideshow: changing settings while it runs",
+        allow: "autoplay; encrypted-media; picture-in-picture; fullscreen", allowfullscreen: "" }));
+    });
+    box.append(play);
+    const note = document.getElementById("yt-note");
+    note.append(LIVE_NOTE + " ", el("a", { href: watch, target: "_blank", rel: "noopener" }, "Open on YouTube"));
+    document.getElementById("clip-live").hidden = false;
+    show();
+  }
+
+  // Screenshots: each is put in the page at once (hidden) and shown when it
+  // has loaded (an image outside the page with loading="lazy" never loads
+  // on iPhone / Safari). A click opens it large over the page.
+  const shots = document.getElementById("shots");
+  const loaded = [];          // [src, caption, figure] in SCREENSHOTS order
   SCREENSHOTS.forEach(([src, caption], i) => {
     const img = el("img", { src, alt: caption || "Screenshot " + (i + 1), decoding: "async" });
-    const fig = el("figure", { style: "margin:0" }, el("a", { href: src, target: "_blank" }, img));
+    const a = el("a", { href: src }, img);
+    const fig = el("figure", { style: "margin:0" }, a);
     if (caption) fig.append(el("figcaption", {}, caption));
     fig.hidden = true;
     shots.append(fig);
-    const shown = () => { fig.hidden = false; show(); };
+    const entry = [src, caption, fig];
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      openViewer(loaded.filter(x => !x[2].hidden).indexOf(entry));
+    });
+    const shown = () => {
+      if (!fig.hidden) return;
+      fig.hidden = false;
+      loaded.push(entry);
+      loaded.sort((p, q) => SCREENSHOTS.findIndex(s => s[0] === p[0]) - SCREENSHOTS.findIndex(s => s[0] === q[0]));
+      document.getElementById("shots-h").hidden = false;
+      show();
+    };
     img.addEventListener("load", shown);
     img.addEventListener("error", () => fig.remove());
     if (img.complete && img.naturalWidth) shown();
+  });
+
+  const lb = document.getElementById("lb"), lbImg = document.getElementById("lb-img");
+  const lbCap = document.getElementById("lb-cap"), lbCount = document.getElementById("lb-count");
+  let at = 0, lastFocus = null;
+  function render() {
+    const [src, caption] = loaded[at];
+    lbImg.src = src;
+    lbImg.alt = caption || "Screenshot " + (at + 1);
+    lbCap.textContent = caption || "";
+    lbCount.textContent = (at + 1) + " / " + loaded.length;
+    const many = loaded.length > 1;
+    document.getElementById("lb-prev").hidden = document.getElementById("lb-next").hidden = !many;
+  }
+  function openViewer(i) {
+    if (i < 0) return;
+    at = i;
+    lastFocus = document.activeElement;
+    render();
+    lb.hidden = false;
+    document.body.style.overflow = "hidden";
+    document.getElementById("lb-close").focus();
+  }
+  function closeViewer() {
+    lb.hidden = true;
+    document.body.style.overflow = "";
+    if (lastFocus) lastFocus.focus();
+  }
+  const step = (d) => { at = (at + d + loaded.length) % loaded.length; render(); };
+  document.getElementById("lb-close").onclick = closeViewer;
+  document.getElementById("lb-prev").onclick = (e) => { e.stopPropagation(); step(-1); };
+  document.getElementById("lb-next").onclick = (e) => { e.stopPropagation(); step(1); };
+  lb.addEventListener("click", (e) => { if (e.target === lb) closeViewer(); });
+  document.addEventListener("keydown", (e) => {
+    if (lb.hidden) return;
+    if (e.key === "Escape") closeViewer();
+    else if (e.key === "ArrowLeft") step(-1);
+    else if (e.key === "ArrowRight") step(1);
+  });
+  // Swipe left / right: next / previous; swipe down: close.
+  let x0 = null, y0 = null;
+  lb.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 1) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; } else x0 = null;
+  }, { passive: true });
+  lb.addEventListener("touchend", (e) => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    x0 = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) step(dx < 0 ? 1 : -1);
+    else if (dy > 80 && dy > Math.abs(dx)) closeViewer();
   });
 })();
 </script>
