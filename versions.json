@@ -1,8 +1,31 @@
 {
   "app": "Objects Slideshow",
-  "latest": "2.0.0",
+  "latest": "2.0.1",
   "releases_page": "https://github.com/namtpham/objects-slideshow-app/releases",
   "releases": [
+    {
+      "version": "2.0.1",
+      "date": "2026-10-06",
+      "notes": [
+        "Updates work on networks that block namtpham.github.io: the app now also checks for new versions on github.com.",
+        "Help > Releases on GitHub opens the downloads on GitHub.",
+        "When the website cannot be reached, the update notice's Website button opens the GitHub release page instead."
+      ],
+      "downloads": {
+        "onefile": {
+          "name": "Objects_slideshow_2.0.1_20261006.zip",
+          "size": 66220452,
+          "url": "https://github.com/namtpham/objects-slideshow-app/releases/download/v2.0.1/Objects_slideshow_2.0.1_20261006.zip",
+          "sha256": "5114e0d3d2ed2a64ae08eca08106e192917d3ef6c412193ab130993e3ad50ac5"
+        },
+        "folder": {
+          "name": "Objects_slideshow_2.0.1_20261006_folder.zip",
+          "size": 66730210,
+          "url": "https://github.com/namtpham/objects-slideshow-app/releases/download/v2.0.1/Objects_slideshow_2.0.1_20261006_folder.zip",
+          "sha256": "e5fda1cbfbb617be290ad52f96ae1263accdb2c419880308c19146aa3b756433"
+        }
+      }
+    },
     {
       "version": "2.0.0",
       "date": "2026-10-06",
