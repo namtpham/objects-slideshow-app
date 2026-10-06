@@ -406,8 +406,10 @@ const WEB3FORMS_KEY = "658c4437-0601-4b97-ae49-45a2c129c203";
 const DEMO_VIDEO = "media/demo.mp4";
 // A second demo on YouTube (too big for GitHub): its link, e.g.
 // "https://youtu.be/AbCdEfGhIjK". Empty: not shown.
-const LIVE_VIDEO = "";
-const LIVE_NOTE = "The main window and the show side by side: each change shows in the slideshow at once.";
+const LIVE_VIDEO = "https://youtu.be/NXSKqL7HOpg";
+const LIVE_ASPECT = "2500 / 1080";     // the video's width / height (its player is that shape)
+const LIVE_NOTE = "14 minutes in real time, nothing sped up: the main window and the show side by side; " +
+                  "every change (speed, size, directions, display modes, effects) shows in the show at once.";
 const DEMO_POSTER = "media/demo.jpg";
 const SCREENSHOTS = [
   ["media/screenshot-1.png", "Main window"],
@@ -554,11 +556,19 @@ fetch("versions.json", { cache: "no-store" })
     const id = m[1], watch = "https://www.youtube.com/watch?v=" + id;
     const box = document.getElementById("yt");
     const play = el("button", { type: "button", "aria-label": "Play the video" });
-    const thumb = el("img", { src: "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg", alt: "" });
-    thumb.addEventListener("error", () => {    // YouTube blocked on this network
-      play.replaceChildren(el("a", { class: "blocked", href: watch, target: "_blank", rel: "noopener" },
-                              "Watch it on YouTube"));
-    });
+    box.style.aspectRatio = LIVE_ASPECT;
+    // The large picture when YouTube has made one (a 120 px stand-in when
+    // not), else the smaller one; none at all: YouTube is blocked here.
+    const thumb = el("img", { src: "https://i.ytimg.com/vi/" + id + "/maxresdefault.jpg", alt: "" });
+    const smaller = () => {
+      if (thumb.dataset.small) return blocked();
+      thumb.dataset.small = "1";
+      thumb.src = "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg";
+    };
+    const blocked = () => play.replaceChildren(
+      el("a", { class: "blocked", href: watch, target: "_blank", rel: "noopener" }, "Watch it on YouTube"));
+    thumb.addEventListener("load", () => { if (!thumb.dataset.small && thumb.naturalWidth <= 120) smaller(); });
+    thumb.addEventListener("error", smaller);
     play.append(thumb, el("span"));
     play.addEventListener("click", () => {
       box.replaceChildren(el("iframe", {

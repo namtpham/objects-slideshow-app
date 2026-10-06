@@ -46,6 +46,9 @@ those images moving in any of 8 directions. Each object can get its own
 - Image downloads from DuckDuckGo and Bing, with duplicates skipped. No account or key needed.
 - Updates itself (Help > Check for updates > **Update now**), keeping your images and settings.
 
+**Watch:** [changing settings while the show runs](https://youtu.be/NXSKqL7HOpg) (YouTube, 14 min,
+real time): every change shows in the slideshow at once.
+
 See [what 2.0 does better than 1.x](https://namtpham.github.io/objects-slideshow-app/#better)
 (frame rate, CPU, memory, preparing images, downloads).
 
