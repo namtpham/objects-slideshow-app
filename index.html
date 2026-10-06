@@ -149,6 +149,9 @@
       restarts, and keeps your images, settings and presets.
       From a version before 2.0.0: unzip the new zip into the same place as before and let it
       replace the files; your images and settings stay.</p>
+    <p class="note" style="margin:8px 0 0">Network blocks this website? From version 2.0.1 the app
+      checks for updates on github.com instead, and the downloads are on the
+      <a href="https://github.com/namtpham/objects-slideshow-app/releases/latest">GitHub releases page</a>.</p>
   </section>
 
   <section id="images">
@@ -437,19 +440,19 @@ fetch("versions.json", { cache: "no-store" })
   probe.onload = () => { video.poster = DEMO_POSTER; };
   probe.src = DEMO_POSTER;
   video.src = DEMO_VIDEO;
+  // Each picture is put in the page at once (hidden) and shown when it has
+  // loaded: an image outside the page with loading="lazy" never loads on
+  // iPhone / Safari.
   SCREENSHOTS.forEach(([src, caption], i) => {
-    const img = new Image();
-    img.alt = caption || "Screenshot " + (i + 1);
-    img.loading = "lazy";
-    img.onload = () => {
-      const fig = el("figure", { style: "margin:0;order:" + i });
-      const a = el("a", { href: src, target: "_blank" }, img);
-      fig.append(a);
-      if (caption) fig.append(el("figcaption", {}, caption));
-      shots.append(fig);
-      show();
-    };
-    img.src = src;
+    const img = el("img", { src, alt: caption || "Screenshot " + (i + 1), decoding: "async" });
+    const fig = el("figure", { style: "margin:0" }, el("a", { href: src, target: "_blank" }, img));
+    if (caption) fig.append(el("figcaption", {}, caption));
+    fig.hidden = true;
+    shots.append(fig);
+    const shown = () => { fig.hidden = false; show(); };
+    img.addEventListener("load", shown);
+    img.addEventListener("error", () => fig.remove());
+    if (img.complete && img.naturalWidth) shown();
   });
 })();
 </script>
