@@ -53,6 +53,11 @@
   .release ul { margin: 6px 0 0; padding-left: 20px; }
   .release li { margin: 2px 0; }
   .note { color: var(--muted); font-size: .93rem; }
+  .gains { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; margin-top: 12px; }
+  .gain { border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; }
+  .gain h3 { margin: 0 0 4px; font-size: 1rem; }
+  .gain ul { margin: 0; padding-left: 18px; font-size: .92rem; }
+  .gain li { margin: 3px 0; }
   #more { background: none; border: 0; color: var(--accent); cursor: pointer; padding: 6px 0 0; font: inherit; }
   footer { color: var(--muted); font-size: .88rem; padding: 10px 0 40px; display: flex;
            flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; }
@@ -107,6 +112,7 @@
     <div class="cta">
       <a class="btn" id="dl-latest" href="#download">Download</a>
       <a class="btn secondary" href="#whats-new">What's new</a>
+      <a class="btn secondary" href="#better">Why 2.0</a>
       <a class="btn secondary" href="#feedback">Feedback</a>
       <a class="btn coffee" href="https://buymeacoffee.com/namtpham" target="_blank" rel="noopener">&#9749; Buy me a coffee</a>
       <span class="ver" id="latest-label"></span>
@@ -147,15 +153,83 @@
 
   <section id="images">
     <h2>About downloaded images</h2>
-    <p class="note" style="margin:0">The app finds images with <b>DuckDuckGo</b> and <b>Bing</b> image search:
-      free, with no account, key or daily limit. Google is not used: its search API no longer takes
-      new users and is being shut down (January 2027).</p>
+    <p class="note" style="margin:0">The app searches <b>DuckDuckGo</b> and <b>Bing</b> image search
+      together, taking turns between them, so one download gets the results of both (there is nothing to
+      choose or set up). Both are free, with no account, key or daily limit. Google is not used: its
+      search API no longer takes new users and is being shut down (January 2027).</p>
     <ul class="note" style="margin:8px 0 0;padding-left:20px">
-      <li>After many downloads in a short time, an engine may refuse searches for a while: try again later.</li>
+      <li>After many downloads in a short time, an engine may refuse searches for a while: the other one
+        goes on, and later the first one works again.</li>
       <li>The results are the engines': some images may be off-topic or poor. Remove them in Editor mode.</li>
       <li>Images belong to their owners: use them for your own work only.</li>
       <li>You can also use your own folders of images instead of downloading.</li>
     </ul>
+  </section>
+
+  <section id="better">
+    <h2>What 2.0 does better than 1.x</h2>
+    <p class="note" style="margin:0 0 4px">Version 2 was rebuilt for speed and steadiness. Measured on test
+      PCs; your numbers depend on your PC, screen size and settings.</p>
+    <div class="gains">
+      <div class="gain">
+        <h3>Frame rate</h3>
+        <ul>
+          <li>Up to <b>60 fps</b>, with even frame pacing (1.x: about 30-35 fps, uneven).</li>
+          <li>Plain show at 1920&times;1080: <b>25 &rarr; 60 fps</b>.</li>
+          <li>Flip, mirror, info text and effects at 1920&times;1080: <b>18 &rarr; 40-45 fps</b>;
+            60 fps at 1280&times;720.</li>
+          <li>Info text 51 &rarr; 0.25 ms a frame; flip / mirror 9.6 &rarr; 0.6 ms; background 9.4 &rarr; 0.5 ms.</li>
+        </ul>
+      </div>
+      <div class="gain">
+        <h3>CPU</h3>
+        <ul>
+          <li>Effects run in their own process, so the show never waits for them.</li>
+          <li>Effects only for the images on screen: <b>a full CPU core &rarr; about a quarter</b>
+            (7,900 &rarr; 2,500 images drawn a second).</li>
+          <li>All 16 effects together: 128 &rarr; 58 ms a pass; the camera movements 80 &rarr; 18 ms.</li>
+          <li>The show pauses while its window is hidden: <b>almost no CPU</b>. Optional: effects at 30 fps.</li>
+        </ul>
+      </div>
+      <div class="gain">
+        <h3>Memory</h3>
+        <ul>
+          <li>A slow leak in long runs fixed (1.x grew by about <b>50 MB an hour</b>); 2.0 stays flat.</li>
+          <li>Effect results are freed when no longer shown: the effects' memory <b>405 &rarr; 220 MB</b>
+            in a heavy-effects run.</li>
+          <li>After Stop: 383 &rarr; 307 MB. A memory chart in the app shows it live.</li>
+        </ul>
+      </div>
+      <div class="gain">
+        <h3>Preparing images</h3>
+        <ul>
+          <li>Big photos are decoded at the size they are shown: a 4000&times;3000 photo
+            <b>160 &rarr; 33 ms</b>, with a fraction of the memory.</li>
+          <li>First picture of a show or a video export: 0.96 &rarr; 0.33 s.</li>
+          <li>Background color changes repaint at once (90 images: 33 ms) instead of preparing all
+            images again; dragging a slider prepares them once, when you let go.</li>
+        </ul>
+      </div>
+      <div class="gain">
+        <h3>Downloads</h3>
+        <ul>
+          <li><b>DuckDuckGo and Bing</b> (1.x: DuckDuckGo only), 12 phrasings of the name, several
+            result pages each: more images, fewer downloads that stop short.</li>
+          <li><b>16 images at a time</b> (1.x: 8); a slow site no longer holds the download up.</li>
+          <li>Too small, too big or broken files are skipped before they are saved; a summary says what
+            was skipped and why.</li>
+        </ul>
+      </div>
+      <div class="gain">
+        <h3>Everyday use</h3>
+        <ul>
+          <li><b>Update now</b>: new versions install themselves, keeping images, settings and presets.</li>
+          <li>Videos in H.264: smaller, and they play everywhere.</li>
+          <li>Capture (Ctrl + G), many new camera effects with a live preview, the show on the monitor
+            you choose, a Settings window.</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
   <section id="whats-new">
