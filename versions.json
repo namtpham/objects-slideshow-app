@@ -1,8 +1,41 @@
 {
   "app": "Objects Slideshow",
-  "latest": "2.0.2",
+  "latest": "2.1.0",
   "releases_page": "https://github.com/namtpham/objects-slideshow-app/releases",
   "releases": [
+    {
+      "version": "2.1.0",
+      "date": "2026-10-16",
+      "notes": [
+        "Stream the show (new Stream button): a live video stream, like a network camera, for VLC, a browser, OpenCV or a detector: MJPEG over HTTP (the lowest delay), RTSP (H.264) or both.",
+        "Stream: viewers on this computer only or on other devices too; size, frame rate, quality, the info text, a clock in the corner; stop it by hand, after a set time or at a date and time.",
+        "While streaming, the show keeps its frame rate and keeps running when its window is hidden. When the stream stops, viewers are told (VLC ends playback).",
+        "RTSP needs ffmpeg: Start streaming offers to download it (or streams MJPEG only).",
+        "Preset schedule (Presets > Preset schedule): saved presets one after another, each for its own time (5 minutes to 24 hours); start with the show or at a date and time.",
+        "Preset schedule: the next preset's images are prepared in the background, so there is no loading screen between steps.",
+        "The memory chart can show CPU instead (the app and its effects process), with an orange strip where the stream was on.",
+        "Logs: Copy copies the lines shown (all, or those matching the filter); Clear clears the filter.",
+        "Fixed: effects (rotation, projective and the others) jumped back for a moment when the show resumed after a pause, and ahead after Editor mode or an export started from a paused show.",
+        "Fixed: closing the app while streaming could hang.",
+        "Fixed: on a PC where the antivirus checks a new version for a long time, the effects process gave up instead of waiting.",
+        "Fixed: in Editor mode the image menu (Open in Paint / Delete image) could close at once.",
+        "If the show stops responding, logs/crash.log says whether Windows held it up or the app was busy."
+      ],
+      "downloads": {
+        "onefile": {
+          "name": "Objects_slideshow_2.1.0_20261016.zip",
+          "size": 66428441,
+          "url": "https://github.com/namtpham/objects-slideshow-app/releases/download/v2.1.0/Objects_slideshow_2.1.0_20261016.zip",
+          "sha256": "b16bbf19b17fb900e9e11bac88934f4d7b48d613673908f60583ebd5f6cb3330"
+        },
+        "folder": {
+          "name": "Objects_slideshow_2.1.0_20261016_folder.zip",
+          "size": 66938116,
+          "url": "https://github.com/namtpham/objects-slideshow-app/releases/download/v2.1.0/Objects_slideshow_2.1.0_20261016_folder.zip",
+          "sha256": "054491f8c9a8b8ecb428b2f86858e8d695d714ec92ed5fad449300647f12a347"
+        }
+      }
+    },
     {
       "version": "2.0.2",
       "date": "2026-10-06",
