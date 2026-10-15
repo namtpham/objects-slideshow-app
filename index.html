@@ -21,7 +21,8 @@
   body { margin: 0; background: var(--bg); color: var(--text);
          font: 16px/1.55 "Segoe UI", system-ui, -apple-system, sans-serif; }
   a { color: var(--accent); }
-  .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+  .intro > p, section > p.note, .clips-note { max-width: 900px; }
   header { padding: 48px 0 32px; }
   .brand { display: flex; align-items: center; gap: 18px; }
   .brand img { width: 72px; height: 72px; }
@@ -80,18 +81,28 @@
                            border-color: transparent transparent transparent #fff; margin-left: 4px; }
   .yt button .blocked { position: relative; color: #fff; font-weight: 600; text-decoration: underline; }
   .yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
-  .shots a { display: block; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; cursor: zoom-in; }
-  .shots img { display: block; width: 100%; height: auto; transition: transform .2s; }
+  .shots { display: grid; grid-template-columns: 1fr; gap: 22px; }
+  .shots a { display: block; width: fit-content; max-width: 100%; border: 1px solid var(--line); border-radius: 8px;
+             overflow: hidden; cursor: zoom-in; }
+  .shots img { display: block; max-width: 100%; height: auto; transition: transform .2s; }
   .shots a:hover img { transform: scale(1.02); }
-  .shots figcaption { color: var(--muted); font-size: .85rem; padding: 6px 2px 0; }
+  .shots figcaption, .clips figcaption { color: var(--muted); font-size: .9rem; padding: 6px 2px 0; }
+  /* Clips: short loops recorded from the app (they play like GIFs: muted, looping) */
+  .clips { display: grid; grid-template-columns: 1fr; gap: 26px; margin-bottom: 26px; }
+  .clips figure { margin: 0; }
+  .clips a { display: block; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; cursor: zoom-in;
+             background: #f5f6f8; }
+  .clips video { display: block; width: 100%; height: auto; }
+  .clips figcaption b { color: var(--text); font-weight: 600; }
+  .credit { color: var(--muted); font-size: .8rem; margin: -12px 0 22px; }
   /* Screenshot viewer: over the page, Esc / click outside / swipe down to close */
   .lb { position: fixed; inset: 0; z-index: 50; background: rgba(8,10,14,.95); display: flex;
         flex-direction: column; align-items: center; justify-content: center; padding: 48px 12px 16px;
         touch-action: pan-y pinch-zoom; }
   .lb[hidden] { display: none; }
-  .lb img { max-width: calc(100% - 112px); max-height: calc(100vh - 110px); object-fit: contain; border-radius: 4px;
+  .lb img, .lb video { max-width: calc(100% - 112px); max-height: calc(100vh - 110px); object-fit: contain; border-radius: 4px;
             box-shadow: 0 6px 30px rgba(0,0,0,.5); background: #fff; }
+  .lb [hidden] { display: none; }
   .lb .cap { color: #e6e9ee; font-size: .92rem; margin-top: 10px; min-height: 1.2em; text-align: center; }
   .lb button { position: absolute; border: 0; background: rgba(255,255,255,.12); color: #fff; cursor: pointer;
                width: 44px; height: 44px; border-radius: 50%; font-size: 22px; line-height: 44px; padding: 0;
@@ -103,7 +114,7 @@
   .lb .count { position: absolute; top: 20px; left: 16px; color: #aab3c0; font-size: .85rem; }
   @media (max-width: 560px) {
     .lb { padding-bottom: 70px; }
-    .lb img { max-width: 100%; max-height: calc(100vh - 150px); }
+    .lb img, .lb video { max-width: 100%; max-height: calc(100vh - 150px); }
     .lb .prev, .lb .next { top: auto; bottom: 14px; transform: none; }
   }
   /* About the app */
@@ -156,8 +167,9 @@
     <div class="cta">
       <a class="btn" id="dl-latest" href="#download">Download</a>
       <a class="btn secondary" href="#about">What it is</a>
+      <a class="btn secondary" href="#see">See it</a>
       <a class="btn secondary" href="#whats-new">What's new</a>
-      <a class="btn secondary" href="#better">Why 2.0</a>
+      <a class="btn secondary" href="#better">Why 2.x</a>
       <a class="btn secondary" href="#feedback">Feedback</a>
       <a class="btn coffee" href="https://buymeacoffee.com/namtpham" target="_blank" rel="noopener">&#9749; Buy me a coffee</a>
       <span class="ver" id="latest-label"></span>
@@ -173,12 +185,15 @@
       lens distortion, low resolution, compression, color and exposure, noise, flicker, glare,
       fog / rain / dirt, partial view, patches covering the image.</p>
     <p>Every setting works while the show runs: change the speed, the size, a direction or an effect
-      and the show follows at once.</p>
+      and the show follows at once (see the clips below). The show can also be <b>streamed</b> like a
+      network camera, to VLC, a browser or a detector, and a <b>preset schedule</b> can change the
+      whole show by itself, hour after hour.</p>
     <div class="uses">
       <div class="use">
         <h3>Testing vision systems</h3>
         <p>Show a camera or a model many images of an object, moving and degraded in controlled ways,
-          for as long as needed. Record the show as a video to repeat a test exactly.</p>
+          for as long as needed. Stream it straight to the model (MJPEG or RTSP), or record it as a
+          video to repeat a test exactly.</p>
       </div>
       <div class="use">
         <h3>A moving photo wall</h3>
@@ -190,8 +205,13 @@
       </div>
     </div>
     <ul class="feats">
-      <li><b>Smooth and light:</b> up to 60 fps; effects in their own process; pauses while its window is hidden.</li>
+      <li><b>Smooth and light:</b> up to 60 fps; effects in their own process; pauses while its window
+        is hidden; memory and CPU charts in the app.</li>
       <li><b>Display modes:</b> one object at a time, a random mix, or one object per row / column.</li>
+      <li><b>Stream</b> the show live: MJPEG over HTTP (plays in a browser) or RTSP (H.264, like a
+        network camera), on this PC or to other devices.</li>
+      <li><b>Preset schedule:</b> saved presets one after another, each for its own time; the next
+        one's images are prepared ahead, so there is no loading screen.</li>
       <li><b>Export video</b> (H.264) and <b>Capture</b> (a PNG of what is on screen, Ctrl + G).</li>
       <li><b>Editor mode:</b> click images on the screen to delete them or edit them in Paint.</li>
       <li><b>Presets</b>, a speed schedule, transitions, flip / mirror / rotate, fullscreen.</li>
@@ -212,6 +232,15 @@
       <div class="yt" id="yt"></div>
       <p class="note" id="yt-note"></p>
     </div>
+    <div id="clips-box" hidden>
+      <h3>How fast it follows your settings <span class="note">(click to enlarge)</span></h3>
+      <p class="note clips-note">Recorded from the app, in real time: the main window's settings on the left,
+        the show on the right. Every change shows in the next frames; changes that need new images
+        (a new layout, another object) take a moment while they are prepared.</p>
+      <div class="clips" id="clips"></div>
+      <p class="credit">Images in the clips: <a href="https://github.com/microsoft/fluentui-emoji">Fluent Emoji</a>
+        by Microsoft (MIT License).</p>
+    </div>
     <h3 id="shots-h" hidden>Screenshots <span class="note">(click to enlarge)</span></h3>
     <div class="shots" id="shots"></div>
   </section>
@@ -221,6 +250,7 @@
     <button class="close" id="lb-close" aria-label="Close">&times;</button>
     <button class="prev" id="lb-prev" aria-label="Previous">&#8249;</button>
     <img id="lb-img" alt="">
+    <video id="lb-vid" muted loop playsinline hidden></video>
     <div class="cap" id="lb-cap"></div>
     <button class="next" id="lb-next" aria-label="Next">&#8250;</button>
   </div>
@@ -270,9 +300,10 @@
   </section>
 
   <section id="better">
-    <h2>What 2.0 does better than 1.x</h2>
-    <p class="note" style="margin:0 0 4px">Version 2 was rebuilt for speed and steadiness. Measured on test
-      PCs; your numbers depend on your PC, screen size and settings.</p>
+    <h2>Why 2.x: what it does better than 1.x</h2>
+    <p class="note" style="margin:0 0 4px">Version 2 was rebuilt for speed and steadiness, and 2.1 adds
+      streaming and a preset schedule. Measured on test PCs; your numbers depend on your PC, screen size
+      and settings.</p>
     <div class="gains">
       <div class="gain">
         <h3>Frame rate</h3>
@@ -330,6 +361,17 @@
           <li>Videos in H.264: smaller, and they play everywhere.</li>
           <li>Capture (Ctrl + G), many new camera effects with a live preview, the show on the monitor
             you choose, a Settings window.</li>
+        </ul>
+      </div>
+      <div class="gain">
+        <h3>New in 2.1</h3>
+        <ul>
+          <li><b>Stream</b> the show to VLC, a browser, OpenCV or a detector: MJPEG (10-20 ms of delay on the
+            same PC) or RTSP / H.264 (the graphics chip encodes it when it can).</li>
+          <li>The show keeps its frame rate while streaming; several viewers cost little more than one.</li>
+          <li><b>Preset schedule</b>: presets one after another, each for its own time, with no loading
+            screen between them.</li>
+          <li>A CPU chart next to the memory chart; Copy for the logs.</li>
         </ul>
       </div>
     </div>
@@ -413,11 +455,34 @@ const LIVE_NOTE = "14 minutes in real time, nothing sped up: the main window and
 const DEMO_POSTER = "media/demo.jpg";
 const SCREENSHOTS = [
   ["media/screenshot-1.png", "Main window"],
-  ["media/screenshot-2.png", ""],
-  ["media/screenshot-3.png", ""],
-  ["media/screenshot-4.png", ""],
-  ["media/screenshot-5.png", ""],
-  ["media/screenshot-6.png", ""],
+  ["media/screenshot-2.png", "An object's menu: its folder, downloads, rename, delete"],
+  ["media/screenshot-3.png", "Downloading images for an object"],
+  ["media/screenshot-4.png", "Export video: the show while the video is saved"],
+  ["media/screenshot-5.png", "Speed schedule"],
+  ["media/screenshot-6.png", "Directions, presets and logs"],
+];
+// Clips: [video, picture shown before it plays, title, caption]. Missing ones are skipped.
+const CLIPS = [
+  ["media/clip-directions.mp4", "media/clip-directions.jpg", "Directions",
+   "Right-click an arrow: the show turns that way at once. Several arrows: one after another."],
+  ["media/clip-speed.mp4", "media/clip-speed.jpg", "Speed",
+   "Faster or slower while it runs, with the slider, its - / + buttons or the mouse wheel."],
+  ["media/clip-layout.mp4", "media/clip-layout.jpg", "Rows, columns, size, padding",
+   "The grid is laid out again and its images prepared in a moment."],
+  ["media/clip-display_mode.mp4", "media/clip-display_mode.jpg", "Display modes",
+   "Random mix, one object per row or per column, or one object at a time."],
+  ["media/clip-objects.mp4", "media/clip-objects.jpg", "Objects",
+   "Each object is a folder of images (or downloaded ones). Click one to add it to the show or take it out."],
+  ["media/clip-resize.mp4", "media/clip-resize.jpg", "Resize mode",
+   "How each image fills its tile: Fill, Fit, Stretch or Scale."],
+  ["media/clip-look.mp4", "media/clip-look.jpg", "Background, rotate, flip, mirror",
+   "Colors and orientation change in the next frame."],
+  ["media/clip-effects_motion.mp4", "media/clip-effects_motion.jpg", "Camera effects: movement",
+   "Zoom and pan, rotation, projective transform, camera shake, motion blur; each image with its own timing."],
+  ["media/clip-effects_image.mp4", "media/clip-effects_image.jpg", "Camera effects: the picture",
+   "Noise, low light, compression, low resolution, defocus, lens, color, flicker, fog / rain / dirt, glare, patches, partial view."],
+  ["media/clip-presets.mp4", "media/clip-presets.jpg", "Presets",
+   "Objects, effects, layout and colors in one click; a preset schedule switches them by itself."],
 ];
 
 function el(tag, attrs, ...kids) {
@@ -587,7 +652,7 @@ fetch("versions.json", { cache: "no-store" })
   // has loaded (an image outside the page with loading="lazy" never loads
   // on iPhone / Safari). A click opens it large over the page.
   const shots = document.getElementById("shots");
-  const loaded = [];          // [src, caption, figure] in SCREENSHOTS order
+  const loaded = [];          // {src, caption, kind, fig} in SCREENSHOTS order
   SCREENSHOTS.forEach(([src, caption], i) => {
     const img = el("img", { src, alt: caption || "Screenshot " + (i + 1), decoding: "async" });
     const a = el("a", { href: src }, img);
@@ -595,16 +660,17 @@ fetch("versions.json", { cache: "no-store" })
     if (caption) fig.append(el("figcaption", {}, caption));
     fig.hidden = true;
     shots.append(fig);
-    const entry = [src, caption, fig];
+    const entry = { src, caption, kind: "image", fig, order: i };
     a.addEventListener("click", (e) => {
       e.preventDefault();
-      openViewer(loaded.filter(x => !x[2].hidden).indexOf(entry));
+      const shown = loaded.filter(x => !x.fig.hidden);
+      openViewer(shown, shown.indexOf(entry));
     });
     const shown = () => {
       if (!fig.hidden) return;
       fig.hidden = false;
       loaded.push(entry);
-      loaded.sort((p, q) => SCREENSHOTS.findIndex(s => s[0] === p[0]) - SCREENSHOTS.findIndex(s => s[0] === q[0]));
+      loaded.sort((p, q) => p.order - q.order);
       document.getElementById("shots-h").hidden = false;
       show();
     };
@@ -613,20 +679,70 @@ fetch("versions.json", { cache: "no-store" })
     if (img.complete && img.naturalWidth) shown();
   });
 
+  // Clips: short silent loops, played while they are on the screen (paused
+  // when scrolled away, so the page stays light). A click shows one large.
+  const clips = document.getElementById("clips");
+  const clipItems = [];
+  const io = "IntersectionObserver" in window ? new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (e.isIntersecting) e.target.play().catch(() => {}); else e.target.pause();
+  }), { threshold: 0.2 }) : null;
+  CLIPS.forEach(([src, poster, title, caption], i) => {
+    const v = el("video", { loop: "", playsinline: "", preload: "metadata", poster });
+    v.muted = true;
+    v.setAttribute("muted", "");
+    const a = el("a", { href: src, "aria-label": title }, v);
+    const fig = el("figure", {}, a, el("figcaption", {}, el("b", {}, title + ". "), caption));
+    clips.append(fig);
+    const item = { src, poster, caption: title + ". " + caption, kind: "video", fig };
+    clipItems.push(item);
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      openViewer(clipItems, clipItems.indexOf(item));
+    });
+    // Shown at once with its poster (Safari on iPhone may load nothing more
+    // until it plays); taken out if the browser cannot play it.
+    v.addEventListener("error", () => {
+      fig.remove();
+      clipItems.splice(clipItems.indexOf(item), 1);
+      if (!clipItems.length) document.getElementById("clips-box").hidden = true;
+    });
+    v.src = src;
+    if (io) io.observe(v); else v.play().catch(() => {});
+  });
+  if (clipItems.length) {
+    document.getElementById("clips-box").hidden = false;
+    show();
+  }
+
   const lb = document.getElementById("lb"), lbImg = document.getElementById("lb-img");
+  const lbVid = document.getElementById("lb-vid");
   const lbCap = document.getElementById("lb-cap"), lbCount = document.getElementById("lb-count");
-  let at = 0, lastFocus = null;
+  let list = [], at = 0, lastFocus = null;
   function render() {
-    const [src, caption] = loaded[at];
-    lbImg.src = src;
-    lbImg.alt = caption || "Screenshot " + (at + 1);
-    lbCap.textContent = caption || "";
-    lbCount.textContent = (at + 1) + " / " + loaded.length;
-    const many = loaded.length > 1;
+    const it = list[at];
+    const video = it.kind === "video";
+    lbImg.hidden = video;
+    lbVid.hidden = !video;
+    if (video) {
+      lbImg.removeAttribute("src");
+      lbVid.poster = it.poster || "";
+      lbVid.src = it.src;
+      lbVid.muted = true;
+      lbVid.play().catch(() => {});
+    } else {
+      lbVid.pause();
+      lbVid.removeAttribute("src");
+      lbImg.src = it.src;
+      lbImg.alt = it.caption || "Screenshot " + (at + 1);
+    }
+    lbCap.textContent = it.caption || "";
+    lbCount.textContent = (at + 1) + " / " + list.length;
+    const many = list.length > 1;
     document.getElementById("lb-prev").hidden = document.getElementById("lb-next").hidden = !many;
   }
-  function openViewer(i) {
+  function openViewer(items, i) {
     if (i < 0) return;
+    list = items;
     at = i;
     lastFocus = document.activeElement;
     render();
@@ -636,10 +752,12 @@ fetch("versions.json", { cache: "no-store" })
   }
   function closeViewer() {
     lb.hidden = true;
+    lbVid.pause();
+    lbVid.removeAttribute("src");
     document.body.style.overflow = "";
     if (lastFocus) lastFocus.focus();
   }
-  const step = (d) => { at = (at + d + loaded.length) % loaded.length; render(); };
+  const step = (d) => { at = (at + d + list.length) % list.length; render(); };
   document.getElementById("lb-close").onclick = closeViewer;
   document.getElementById("lb-prev").onclick = (e) => { e.stopPropagation(); step(-1); };
   document.getElementById("lb-next").onclick = (e) => { e.stopPropagation(); step(1); };
