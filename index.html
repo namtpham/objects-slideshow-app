@@ -454,12 +454,13 @@ const LIVE_NOTE = "14 minutes in real time, nothing sped up: the main window and
                   "every change (speed, size, directions, display modes, effects) shows in the show at once.";
 const DEMO_POSTER = "media/demo.jpg";
 const SCREENSHOTS = [
-  ["media/screenshot-1.png", "Main window"],
-  ["media/screenshot-2.png", "An object's menu: its folder, downloads, rename, delete"],
-  ["media/screenshot-3.png", "Downloading images for an object"],
-  ["media/screenshot-4.png", "Export video: the show while the video is saved"],
-  ["media/screenshot-5.png", "Speed schedule"],
-  ["media/screenshot-6.png", "Directions, presets and logs"],
+  ["media/screenshot-1.png", "Main window: every setting on one screen, all of them changeable while the show runs"],
+  ["media/screenshot-2.png", "Downloading images for an object: how many, and size filters (all off here)"],
+  ["media/screenshot-3.png", "Effects for one object: rotation, noise and screen flicker on 70% of its tiles, tried in the live preview before Apply"],
+  ["media/screenshot-4.png", "Preset schedule: 5 presets one after another, each for its own time (46 h 30 m in all), then it starts again"],
+  ["media/screenshot-5.png", "Streaming as MJPEG and RTSP, to other devices too, with 2 viewers watching"],
+  ["media/screenshot-6.png", "Speed schedule: speeds that change by themselves in a cycle, as many steps as you like"],
+  ["media/screenshot-7.png", "Exporting a video: the show pauses while the video is saved"],
 ];
 // Clips: [video, picture shown before it plays, title, caption]. Missing ones are skipped.
 const CLIPS = [
@@ -467,10 +468,10 @@ const CLIPS = [
    "Right-click an arrow: the show turns that way at once. Several arrows: one after another."],
   ["media/clip-speed.mp4", "media/clip-speed.jpg", "Speed",
    "Faster or slower while it runs, with the slider, its - / + buttons or the mouse wheel."],
-  ["media/clip-layout.mp4", "media/clip-layout.jpg", "Rows, columns, size, padding",
-   "The grid is laid out again and its images prepared in a moment."],
+  ["media/clip-layout.mp4", "media/clip-layout.jpg", "Rows, columns, size, padding, border",
+   "The grid is laid out again at once; images at a new size are prepared in a moment."],
   ["media/clip-display_mode.mp4", "media/clip-display_mode.jpg", "Display modes",
-   "Random mix, one object per row or per column, or one object at a time."],
+   "Random mix, one object per row or per column, or one object at a time. A new mode fills the lines as they come in."],
   ["media/clip-objects.mp4", "media/clip-objects.jpg", "Objects",
    "Each object is a folder of images (or downloaded ones). Click one to add it to the show or take it out."],
   ["media/clip-resize.mp4", "media/clip-resize.jpg", "Resize mode",
